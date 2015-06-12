@@ -765,8 +765,15 @@ Phaser.Game.prototype = {
             return;
         }
 
+        if (true) {
+          this.updateLogic(1.0 / this.time.desiredFps);
+          this.stage.updateTransform();
+          this.updateRender(this.time.slowMotion * this.time.desiredFps);
+        }
+
+
         // if the logic time is spiraling upwards, skip a frame entirely
-        if (this._spiraling > 1 && !this.forceSingleUpdate)
+        else if (this._spiraling > 1 && !this.forceSingleUpdate)
         {
             // cause an event to warn the program that this CPU can't keep up with the current desiredFps rate
             if (this.time.time > this._nextFpsNotification)
