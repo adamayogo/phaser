@@ -414,7 +414,7 @@ declare module Phaser {
         getFrameData(key: string, map?: string): Phaser.FrameData;
         getImage(key: string): Phaser.Image;
         getJSON(key: string): any;
-        getKeys(array: string[]): string[];
+        getKeys(key: any): string[];
         getPhysicsData(key: string, object?: string, fixtureKey?: string): any[];
         getRenderTexture(key: string): Phaser.RenderTexture;
         getSound(key: string): Phaser.Sound;
@@ -1451,7 +1451,7 @@ declare module Phaser {
         addAll(property: string, amount: number, checkAlive: boolean, checkVisible: boolean): void;
         addAt(child: any, index: number, silent?: boolean): any;
         addMultiple(children: any[], silent?: boolean): any[];
-        bringToTop(): PIXI.DisplayObject;
+        bringToTop(child:any): any;
         callAll(method: string, context: any, ...parameters: any[]): void;
         callAllExists(callback: Function, existsValue: boolean, ...parameters: any[]): void;
         callbackFromArray(child: any, callback: Function, length: number): void;
@@ -2056,7 +2056,7 @@ declare module Phaser {
 
         apply(pos: Phaser.Point, newPos?: Phaser.Point): Phaser.Point;
         applyInverse(pos: Phaser.Point, newPos?: Phaser.Point): Phaser.Point;
-        fromArray(array: number[]);
+        fromArray(array: number[]): Phaser.Matrix;
         toArray(transpose: boolean): number[];
         translate(x: number, y: number): Phaser.Matrix;
         scale(x: number, y: number): Phaser.Matrix;

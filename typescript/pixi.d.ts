@@ -421,7 +421,9 @@ declare module PIXI {
 
     export class ColorMatrixFilter extends AbstractFilter {
 
-        matrix: Matrix;
+        constructor();
+
+        matrix: number[];
 
     }
 
