@@ -4640,6 +4640,7 @@ declare module Phaser {
         onStart: Phaser.Signal;
         pendingDelete: boolean;
         properties: any;
+        realTime: boolean;
         repeatCounter: number;
         //repeatDelay: number;
         reverse: boolean;
@@ -4652,8 +4653,8 @@ declare module Phaser {
         delay(duration: number, index?: number): Phaser.Tween;
         easing(ease: Function, index?: number): Phaser.Tween;
         easing(ease: string, index?: number): Phaser.Tween;
-        from(properties: any, duration?: number, ease?: Function, autoStart?: boolean, delay?: number, repeat?: number, yoyo?: boolean): Phaser.Tween;
-        from(properties: any, duration?: number, ease?: string, autoStart?: boolean, delay?: number, repeat?: number, yoyo?: boolean): Phaser.Tween;
+        from(properties: any, duration?: number, ease?: Function, autoStart?: boolean, delay?: number, repeat?: number, yoyo?: boolean, realTime?: boolean): Phaser.Tween;
+        from(properties: any, duration?: number, ease?: string, autoStart?: boolean, delay?: number, repeat?: number, yoyo?: boolean, realTime?: boolean): Phaser.Tween;
         generateData(frameRate?: number, data?: any): any[];
         interpolation(interpolation: Function, context?: any, index?: number): Phaser.Tween;
         loop(value?: boolean): Phaser.Tween;
@@ -4665,8 +4666,8 @@ declare module Phaser {
         resume(): void;
         start(index?: number): Phaser.Tween;
         stop(complete?: boolean): Phaser.Tween;
-        to(properties: any, duration?: number, ease?: Function, autoStart?: boolean, delay?: number, repeat?: number, yoyo?: boolean): Phaser.Tween;
-        to(properties: any, duration?: number, ease?: string, autoStart?: boolean, delay?: number, repeat?: number, yoyo?: boolean): Phaser.Tween;
+        to(properties: any, duration?: number, ease?: Function, autoStart?: boolean, delay?: number, repeat?: number, yoyo?: boolean, realTime?: boolean): Phaser.Tween;
+        to(properties: any, duration?: number, ease?: string, autoStart?: boolean, delay?: number, repeat?: number, yoyo?: boolean, realTime?: boolean): Phaser.Tween;
         update(time: number): boolean;
         updateTweenData(property: string, value: number | Function, index?: number): Phaser.Tween;
         yoyo(enable: boolean, yoyoDelay?: number, index?: number): Phaser.Tween;
@@ -4697,17 +4698,18 @@ declare module Phaser {
         isFrom: boolean;
         parent: Phaser.Tween;
         percent: number;
+        realTime: boolean;
         repeatCounter: number;
         startTime: number;
         value: number;
         yoyo: boolean;
         yoyoDelay: number;
 
-        from(properties: any, duration?: number, ease?: Function, delay?: number, repeat?: number, yoyo?: boolean): Phaser.TweenData;
+        from(properties: any, duration?: number, ease?: Function, delay?: number, repeat?: number, yoyo?: boolean, realTime?: boolean): Phaser.TweenData;
         generateData(frameRate?: number): any[];
         repeat(): number;
         start(): Phaser.TweenData;
-        to(properties: any, duration?: number, ease?: Function, delay?: number, repeat?: number, yoyo?: boolean): Phaser.TweenData;
+        to(properties: any, duration?: number, ease?: Function, delay?: number, repeat?: number, yoyo?: boolean, realTime?: boolean): Phaser.TweenData;
         update(): number;
 
     }

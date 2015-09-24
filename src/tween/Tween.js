@@ -51,7 +51,7 @@ Phaser.Tween = function (target, game, manager) {
     /**
     * The speed at which the tweens will run. A value of 1 means it will match the game frame rate. 0.5 will run at half the frame rate. 2 at double the frame rate, etc.
     * If a tweens duration is 1 second but timeScale is 0.5 then it will take 2 seconds to complete.
-    * 
+    *
     * @property {number} timeScale
     * @default
     */
@@ -179,9 +179,10 @@ Phaser.Tween.prototype = {
     * @param {number} [delay=0] - Delay before this tween will start in milliseconds. Defaults to 0, no delay.
     * @param {number} [repeat=0] - Should the tween automatically restart once complete? If you want it to run forever set as -1. This only effects this induvidual tween, not any chained tweens.
     * @param {boolean} [yoyo=false] - A tween that yoyos will reverse itself and play backwards automatically. A yoyo'd tween doesn't fire the Tween.onComplete event, so listen for Tween.onLoop instead.
+    * @param {boolean} [realTime=false] - Should the tween use a constant, frame-based update schedule (false), or skip frames when the framerate drops (true)?
     * @return {Phaser.Tween} This Tween object.
     */
-    to: function (properties, duration, ease, autoStart, delay, repeat, yoyo) {
+    to: function (properties, duration, ease, autoStart, delay, repeat, yoyo, realTime) {
 
         if (typeof duration === 'undefined') { duration = 1000; }
         if (typeof ease === 'undefined') { ease = Phaser.Easing.Default; }
@@ -189,6 +190,7 @@ Phaser.Tween.prototype = {
         if (typeof delay === 'undefined') { delay = 0; }
         if (typeof repeat === 'undefined') { repeat = 0; }
         if (typeof yoyo === 'undefined') { yoyo = false; }
+        if (typeof realTime === 'undefined') { realTime = false; }
 
         if (typeof ease === 'string' && this.manager.easeMap[ease])
         {
@@ -201,7 +203,7 @@ Phaser.Tween.prototype = {
             return this;
         }
 
-        this.timeline.push(new Phaser.TweenData(this).to(properties, duration, ease, delay, repeat, yoyo));
+        this.timeline.push(new Phaser.TweenData(this).to(properties, duration, ease, delay, repeat, yoyo, realTime));
 
         if (autoStart)
         {
@@ -226,9 +228,10 @@ Phaser.Tween.prototype = {
     * @param {number} [delay=0] - Delay before this tween will start in milliseconds. Defaults to 0, no delay.
     * @param {number} [repeat=0] - Should the tween automatically restart once complete? If you want it to run forever set as -1. This only effects this induvidual tween, not any chained tweens.
     * @param {boolean} [yoyo=false] - A tween that yoyos will reverse itself and play backwards automatically. A yoyo'd tween doesn't fire the Tween.onComplete event, so listen for Tween.onLoop instead.
+    * @param {boolean} [realTime=false] - Should the tween use a constant, frame-based update schedule (false), or skip frames when the framerate drops (true)?
     * @return {Phaser.Tween} This Tween object.
     */
-    from: function (properties, duration, ease, autoStart, delay, repeat, yoyo) {
+    from: function (properties, duration, ease, autoStart, delay, repeat, yoyo, realTime) {
 
         if (typeof duration === 'undefined') { duration = 1000; }
         if (typeof ease === 'undefined') { ease = Phaser.Easing.Default; }
@@ -236,6 +239,7 @@ Phaser.Tween.prototype = {
         if (typeof delay === 'undefined') { delay = 0; }
         if (typeof repeat === 'undefined') { repeat = 0; }
         if (typeof yoyo === 'undefined') { yoyo = false; }
+        if (typeof realTime === 'undefined') { realTime = false; }
 
         if (typeof ease === 'string' && this.manager.easeMap[ease])
         {
@@ -248,7 +252,7 @@ Phaser.Tween.prototype = {
             return this;
         }
 
-        this.timeline.push(new Phaser.TweenData(this).from(properties, duration, ease, delay, repeat, yoyo));
+        this.timeline.push(new Phaser.TweenData(this).from(properties, duration, ease, delay, repeat, yoyo, realTime));
 
         if (autoStart)
         {
@@ -548,7 +552,7 @@ Phaser.Tween.prototype = {
     * as soon as this tween completes. If this tween never completes (i.e. repeatAll or loop is set) then the chain will never progress.
     * Note that `Tween.onComplete` will fire when *this* tween completes, not when the whole chain completes.
     * For that you should listen to `onComplete` on the final tween in your chain.
-    * 
+    *
     * If you pass multiple tweens to this method they will be joined into a single long chain.
     * For example if this is Tween A and you pass in B, C and D then B will be chained to A, C will be chained to B and D will be chained to C.
     * Any previously chained tweens that may have been set will be overwritten.
@@ -643,7 +647,7 @@ Phaser.Tween.prototype = {
 
     /**
     * This is called by the core Game loop. Do not call it directly, instead use Tween.pause.
-    * 
+    *
     * @private
     * @method Phaser.Tween#_pause
     */

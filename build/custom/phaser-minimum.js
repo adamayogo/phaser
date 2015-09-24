@@ -7,7 +7,7 @@
 *
 * Phaser - http://phaser.io
 *
-* v2.3.0 "Tarabon" - Built: Wed Sep 02 2015 15:08:18
+* v2.3.0 "Tarabon" - Built: Thu Sep 24 2015 16:32:04
 *
 * By Richard Davey http://www.photonstorm.com @photonstorm
 *

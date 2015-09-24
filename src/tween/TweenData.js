@@ -88,6 +88,13 @@ Phaser.TweenData = function (parent) {
     * @default
     */
     this.yoyo = false;
+    this.interpolate = false;
+
+    /**
+    * @property {boolean} realTime - True if the Tween is set to use realTime, otherwise false to use a fixed update rate.
+    * @default
+    */
+    this.realTime = false;
 
     /**
     * @property {number} yoyoDelay - The amount of time in ms between yoyos of this tween.
@@ -185,9 +192,10 @@ Phaser.TweenData.prototype = {
     * @param {number} [delay=0] - Delay before this tween will start, defaults to 0 (no delay). Value given is in ms.
     * @param {number} [repeat=0] - Should the tween automatically restart once complete? If you want it to run forever set as -1. This ignores any chained tweens.
     * @param {boolean} [yoyo=false] - A tween that yoyos will reverse itself and play backwards automatically. A yoyo'd tween doesn't fire the Tween.onComplete event, so listen for Tween.onLoop instead.
+    * @param {boolean} [realTime=false] - Should the tween use a constant, frame-based update schedule (false), or skip frames when the framerate drops (true)?
     * @return {Phaser.TweenData} This Tween object.
     */
-    to: function (properties, duration, ease, delay, repeat, yoyo) {
+    to: function (properties, duration, ease, delay, repeat, yoyo, realTime) {
 
         this.vEnd = properties;
         this.duration = duration;
@@ -195,6 +203,7 @@ Phaser.TweenData.prototype = {
         this.delay = delay;
         this.repeatCounter = repeat;
         this.yoyo = yoyo;
+        this.realTime = realTime;
 
         this.isFrom = false;
 
@@ -213,9 +222,10 @@ Phaser.TweenData.prototype = {
     * @param {number} [delay=0] - Delay before this tween will start, defaults to 0 (no delay). Value given is in ms.
     * @param {number} [repeat=0] - Should the tween automatically restart once complete? If you want it to run forever set as -1. This ignores any chained tweens.
     * @param {boolean} [yoyo=false] - A tween that yoyos will reverse itself and play backwards automatically. A yoyo'd tween doesn't fire the Tween.onComplete event, so listen for Tween.onLoop instead.
+    * @param {boolean} [realTime=false] - Should the tween use a constant, frame-based update schedule (false), or skip frames when the framerate drops (true)?
     * @return {Phaser.TweenData} This Tween object.
     */
-    from: function (properties, duration, ease, delay, repeat, yoyo) {
+    from: function (properties, duration, ease, delay, repeat, yoyo, realTime) {
 
         this.vEnd = properties;
         this.duration = duration;
@@ -223,6 +233,7 @@ Phaser.TweenData.prototype = {
         this.delay = delay;
         this.repeatCounter = repeat;
         this.yoyo = yoyo;
+        this.realTime = realTime;
 
         this.isFrom = true;
 
@@ -355,14 +366,16 @@ Phaser.TweenData.prototype = {
             }
         }
 
+        var elapsed = this.realTime ? this.game.time.elapsedMS : this.game.time.physicsElapsedMS;
+
         if (this.parent.reverse)
         {
-            this.dt -= this.game.time.physicsElapsedMS * this.parent.timeScale;
+            this.dt -= elapsed * this.parent.timeScale;
             this.dt = Math.max(this.dt, 0);
         }
         else
         {
-            this.dt += this.game.time.physicsElapsedMS * this.parent.timeScale;
+            this.dt += elapsed * this.parent.timeScale;
             this.dt = Math.min(this.dt, this.duration);
         }
 
@@ -389,7 +402,7 @@ Phaser.TweenData.prototype = {
         {
             return this.repeat();
         }
-        
+
         return Phaser.TweenData.RUNNING;
 
     },
